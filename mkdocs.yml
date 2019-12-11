@@ -1,0 +1,28 @@
+site_name: RBAC recipes
+site_description: 'A collection of RBAC recipes and tips & tricks'
+site_author: 'Michael Hausenblas'
+repo_name: 'mhausenblas/rbacadabra'
+repo_url: 'https://github.com/mhausenblas/rbacadabra'
+copyright: 'Copyright &copy; 2019 Amazon'
+# nav:
+#     - Home: index.md
+theme:
+    name: 'material'
+    # custom_dir: 'theme'
+    # favicon: 'assets/images/favicon.png'
+    # logo: 'assets/images/logo.png'
+    #   icon: 'timelapse'
+    palette:
+      primary: 'orange'
+      accent: 'orange'
+    highlightjs: true
+    hljs_languages:
+        - yaml
+        - json
+        - bash
+markdown_extensions:
+    - toc:
+        permalink: true
+    - admonition
+    - codehilite:
+        linenums: true
