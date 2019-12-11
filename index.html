@@ -51,7 +51,7 @@
       
         
         
-        <meta name="theme-color" content="#fb8c00">
+        <meta name="theme-color" content="#2196f3">
       
     
     
@@ -75,7 +75,7 @@
   
     
     
-    <body dir="ltr" data-md-color-primary="orange" data-md-color-accent="orange">
+    <body dir="ltr" data-md-color-primary="blue" data-md-color-accent="amber">
   
     <svg class="md-svg">
       <defs>
@@ -115,7 +115,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Home
+                Base
               
             </span>
           
@@ -233,11 +233,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Home
+        Base
       </label>
     
-    <a href="." title="Home" class="md-nav__link md-nav__link--active">
-      Home
+    <a href="." title="Base" class="md-nav__link md-nav__link--active">
+      Base
     </a>
     
       
@@ -257,8 +257,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#re-use-roles-across-namespaces" title="Re-use roles across namespaces" class="md-nav__link">
-    Re-use roles across namespaces
+  <a href="#re-use-roles" title="Re-use roles" class="md-nav__link">
+    Re-use roles
   </a>
   
 </li>
@@ -326,8 +326,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#re-use-roles-across-namespaces" title="Re-use roles across namespaces" class="md-nav__link">
-    Re-use roles across namespaces
+  <a href="#re-use-roles" title="Re-use roles" class="md-nav__link">
+    Re-use roles
   </a>
   
 </li>
@@ -376,12 +376,13 @@
                   <a href="https://github.com/mhausenblas/rbacadabra/edit/master/docs/index.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                  <h1>Home</h1>
+                  <h1>Base</h1>
                 
-                <p>Kubernetes <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">RBAC</a> can sometimes appear to be black magic. Let's look behind the curtain.</p>
+                <p>Kubernetes <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">RBAC</a> can sometimes appear to be some sort of black magic. So, let's look behind the curtain.</p>
 <h2 id="snippets">Snippets<a class="headerlink" href="#snippets" title="Permanent link">&para;</a></h2>
-<h3 id="re-use-roles-across-namespaces">Re-use roles across namespaces<a class="headerlink" href="#re-use-roles-across-namespaces" title="Permanent link">&para;</a></h3>
-<p>Define a cluster role, for example, to view <code>services</code>, using:</p>
+<p>We all love YAML, right? Here's a collection of annotated RBAC-related YAML snippets you can build on.</p>
+<h3 id="re-use-roles">Re-use roles<a class="headerlink" href="#re-use-roles" title="Permanent link">&para;</a></h3>
+<p>To re-use a role across namespaces, first define a cluster role, for example, to view <code>services</code>, using:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -437,8 +438,24 @@
 </pre></div>
 </td></tr></table>
 
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>To validate if the permissions have been granted, have a look at <a href="#checking-for-permissions">checking for permissions</a>.</p>
+</div>
 <h2 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h2>
+<p>Some <code>kubectl</code> commands that might come in handy.</p>
 <h3 id="checking-for-permissions">Checking for permissions<a class="headerlink" href="#checking-for-permissions" title="Permanent link">&para;</a></h3>
+<p>Can the user <code>greta</code> list services in the namespace <code>dev123</code>?</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ kubectl auth can-i <span class="se">\</span>
+          list services <span class="se">\</span>
+          --as<span class="o">=</span>greta <span class="se">\</span>
+          --namespace<span class="o">=</span>dev123
+</pre></div>
+</td></tr></table>
+
 <p>Can the service account <code>dummy</code> create services in the namespace <code>danger</code>?</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
