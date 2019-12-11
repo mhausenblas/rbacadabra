@@ -4,8 +4,8 @@ site_author: 'Michael Hausenblas'
 repo_name: 'mhausenblas/rbacadabra'
 repo_url: 'https://github.com/mhausenblas/rbacadabra'
 copyright: 'Copyright &copy; 2019 Amazon'
-# nav:
-#     - Home: index.md
+nav:
+    - Base: index.md
 theme:
     name: 'material'
     # custom_dir: 'theme'
@@ -13,8 +13,8 @@ theme:
     # logo: 'assets/images/logo.png'
     #   icon: 'timelapse'
     palette:
-      primary: 'orange'
-      accent: 'orange'
+      primary: 'blue'
+      accent: 'amber'
     highlightjs: true
     hljs_languages:
         - yaml

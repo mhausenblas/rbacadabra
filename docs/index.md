@@ -1,10 +1,12 @@
-Kubernetes [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) can sometimes appear to be black magic. Let's look behind the curtain.
+Kubernetes [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) can sometimes appear to be some sort of black magic. So, let's look behind the curtain.
 
 ## Snippets
 
-### Re-use roles across namespaces
+We all love YAML, right? Here's a collection of annotated RBAC-related YAML snippets you can build on.
 
-Define a cluster role, for example, to view `services`, using:
+### Re-use roles
+
+To re-use a role across namespaces, first define a cluster role, for example, to view `services`, using:
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -39,10 +41,23 @@ subjects:
   name: greta
 ```
 
+!!! tip
+    To validate if the permissions have been granted, have a look at [checking for permissions](#checking-for-permissions).
 
 ## Commands
 
+Some `kubectl` commands that might come in handy.
+
 ### Checking for permissions
+
+Can the user `greta` list services in the namespace `dev123`?
+
+```sh
+$ kubectl auth can-i \
+          list services \
+          --as=greta \
+          --namespace=dev123
+```
 
 Can the service account `dummy` create services in the namespace `danger`?
 
