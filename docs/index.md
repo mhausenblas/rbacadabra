@@ -4,7 +4,7 @@ Kubernetes [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
 
 We all love YAML, right? Here's a collection of annotated RBAC-related YAML snippets you can build on.
 
-### Re-use roles
+### Reuse roles
 
 To re-use a role across namespaces, first define a cluster role, for example, to view `services`, using:
 
@@ -43,6 +43,11 @@ subjects:
 
 !!! tip
     To validate if the permissions have been granted, have a look at [checking for permissions](#checking-for-permissions).
+
+### Give namespace admin
+
+### Allow developer to deploy
+
 
 ## Commands
 
