@@ -53,6 +53,47 @@ subjects:
 
 Some `kubectl` commands that might come in handy.
 
+### Creating roles
+
+To create a cluster role:
+
+```sh
+kubectl create clusterrole perm-view-deploys \
+        --verb=get --verb=list \
+        --resource=deployments
+```
+
+To create a role in namespace `somens`:
+
+```sh
+kubectl create role perm-view-deploys-in-somens \
+        --verb=get,list,watch \
+        --resource=deployments \
+        --namespace=somens
+```
+
+### Creating role bindings
+
+To create a cluster role binding, that is, assign a cluster role to user:
+
+```sh
+kubectl create clusterrolebinding assign-perm-view-deploys\
+        --clusterrole=perm-view-deploys \
+        --user=greta
+```
+
+To create a role binding, that is, assign role to user in namespace `somens`:
+
+```sh
+kubectl create rolebinding assign-perm-view-deploys-in-somens \
+        --role=perm-view-deploys-in-somens \
+        --user=greta \
+        --namespace=somens
+```
+
+!!! tip
+    If you just want to see what the YAML manifest would look like that the `kuebctl` command creates, that is, no create the resource, append `-o yaml --dry-run` to the respective command.
+
 ### Checking for permissions
 
 Can the user `greta` list services in the namespace `dev123`?
