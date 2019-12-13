@@ -257,8 +257,22 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#re-use-roles" title="Re-use roles" class="md-nav__link">
-    Re-use roles
+  <a href="#reuse-roles" title="Reuse roles" class="md-nav__link">
+    Reuse roles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#give-namespace-admin" title="Give namespace admin" class="md-nav__link">
+    Give namespace admin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#allow-developer-to-deploy" title="Allow developer to deploy" class="md-nav__link">
+    Allow developer to deploy
   </a>
   
 </li>
@@ -277,8 +291,29 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#creating-roles" title="Creating roles" class="md-nav__link">
+    Creating roles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-role-bindings" title="Creating role bindings" class="md-nav__link">
+    Creating role bindings
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#checking-for-permissions" title="Checking for permissions" class="md-nav__link">
     Checking for permissions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visualize-permissions" title="Visualize permissions" class="md-nav__link">
+    Visualize permissions
   </a>
   
 </li>
@@ -326,8 +361,22 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#re-use-roles" title="Re-use roles" class="md-nav__link">
-    Re-use roles
+  <a href="#reuse-roles" title="Reuse roles" class="md-nav__link">
+    Reuse roles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#give-namespace-admin" title="Give namespace admin" class="md-nav__link">
+    Give namespace admin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#allow-developer-to-deploy" title="Allow developer to deploy" class="md-nav__link">
+    Allow developer to deploy
   </a>
   
 </li>
@@ -346,8 +395,29 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#creating-roles" title="Creating roles" class="md-nav__link">
+    Creating roles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-role-bindings" title="Creating role bindings" class="md-nav__link">
+    Creating role bindings
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#checking-for-permissions" title="Checking for permissions" class="md-nav__link">
     Checking for permissions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visualize-permissions" title="Visualize permissions" class="md-nav__link">
+    Visualize permissions
   </a>
   
 </li>
@@ -381,7 +451,7 @@
                 <p>Kubernetes <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">RBAC</a> can sometimes appear to be some sort of black magic. So, let's look behind the curtain.</p>
 <h2 id="snippets">Snippets<a class="headerlink" href="#snippets" title="Permanent link">&para;</a></h2>
 <p>We all love YAML, right? Here's a collection of annotated RBAC-related YAML snippets you can build on.</p>
-<h3 id="re-use-roles">Re-use roles<a class="headerlink" href="#re-use-roles" title="Permanent link">&para;</a></h3>
+<h3 id="reuse-roles">Reuse roles<a class="headerlink" href="#reuse-roles" title="Permanent link">&para;</a></h3>
 <p>To re-use a role across namespaces, first define a cluster role, for example, to view <code>services</code>, using:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
@@ -442,8 +512,56 @@
 <p class="admonition-title">Tip</p>
 <p>To validate if the permissions have been granted, have a look at <a href="#checking-for-permissions">checking for permissions</a>.</p>
 </div>
+<h3 id="give-namespace-admin">Give namespace admin<a class="headerlink" href="#give-namespace-admin" title="Permanent link">&para;</a></h3>
+<h3 id="allow-developer-to-deploy">Allow developer to deploy<a class="headerlink" href="#allow-developer-to-deploy" title="Permanent link">&para;</a></h3>
 <h2 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h2>
 <p>Some <code>kubectl</code> commands that might come in handy.</p>
+<h3 id="creating-roles">Creating roles<a class="headerlink" href="#creating-roles" title="Permanent link">&para;</a></h3>
+<p>To create a cluster role:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>kubectl create clusterrole perm-view-deploys <span class="se">\</span>
+        --verb<span class="o">=</span>get --verb<span class="o">=</span>list <span class="se">\</span>
+        --resource<span class="o">=</span>deployments
+</pre></div>
+</td></tr></table>
+
+<p>To create a role in namespace <code>somens</code>:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>kubectl create role perm-view-deploys-in-somens <span class="se">\</span>
+        --verb<span class="o">=</span>get,list,watch <span class="se">\</span>
+        --resource<span class="o">=</span>deployments <span class="se">\</span>
+        --namespace<span class="o">=</span>somens
+</pre></div>
+</td></tr></table>
+
+<h3 id="creating-role-bindings">Creating role bindings<a class="headerlink" href="#creating-role-bindings" title="Permanent link">&para;</a></h3>
+<p>To create a cluster role binding, that is, assign a cluster role to user:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>kubectl create clusterrolebinding assign-perm-view-deploys<span class="se">\</span>
+        --clusterrole<span class="o">=</span>perm-view-deploys <span class="se">\</span>
+        --user<span class="o">=</span>greta
+</pre></div>
+</td></tr></table>
+
+<p>To create a role binding, that is, assign role to user in namespace <code>somens</code>:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>kubectl create rolebinding assign-perm-view-deploys-in-somens <span class="se">\</span>
+        --role<span class="o">=</span>perm-view-deploys-in-somens <span class="se">\</span>
+        --user<span class="o">=</span>greta <span class="se">\</span>
+        --namespace<span class="o">=</span>somens
+</pre></div>
+</td></tr></table>
+
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you just want to see what the YAML manifest would look like that the <code>kuebctl</code> command creates, that is, no create the resource, append <code>-o yaml --dry-run</code> to the respective command.</p>
+</div>
 <h3 id="checking-for-permissions">Checking for permissions<a class="headerlink" href="#checking-for-permissions" title="Permanent link">&para;</a></h3>
 <p>Can the user <code>greta</code> list services in the namespace <code>dev123</code>?</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
@@ -466,6 +584,23 @@
           --namespace<span class="o">=</span>danger
 </pre></div>
 </td></tr></table>
+
+<h3 id="visualize-permissions">Visualize permissions<a class="headerlink" href="#visualize-permissions" title="Permanent link">&para;</a></h3>
+<p>If you have <a href="https://github.com/team-soteria/rback">rback</a> installed:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>kubectl get sa,roles,rolebindings,clusterroles,clusterrolebindings <span class="se">\</span>
+        --all-namespaces -o json <span class="p">|</span> <span class="se">\</span>
+        rback <span class="p">|</span> <span class="se">\</span>
+        dot -Tpng &gt; /tmp/rback.png <span class="o">&amp;&amp;</span> <span class="se">\</span>
+        open /tmp/rback.png
+</pre></div>
+</td></tr></table>
+
+<p>Resulting in something like the following (note that only a small part of the overall graph is shown):</p>
+<p><img alt="rback example graph" src="img/rback-example-graph.png" /></p>
                 
                   
                 
