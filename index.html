@@ -311,13 +311,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#visualize-permissions" title="Visualize permissions" class="md-nav__link">
-    Visualize permissions
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -331,6 +324,30 @@
   
 </nav>
     
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="vis/" title="Visualizations" class="md-nav__link">
+      Visualizations
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="apps/" title="Applications" class="md-nav__link">
+      Applications
+    </a>
   </li>
 
     
@@ -411,13 +428,6 @@
           <li class="md-nav__item">
   <a href="#checking-for-permissions" title="Checking for permissions" class="md-nav__link">
     Checking for permissions
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#visualize-permissions" title="Visualize permissions" class="md-nav__link">
-    Visualize permissions
   </a>
   
 </li>
@@ -584,23 +594,6 @@
           --namespace<span class="o">=</span>danger
 </pre></div>
 </td></tr></table>
-
-<h3 id="visualize-permissions">Visualize permissions<a class="headerlink" href="#visualize-permissions" title="Permanent link">&para;</a></h3>
-<p>If you have <a href="https://github.com/team-soteria/rback">rback</a> installed:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>kubectl get sa,roles,rolebindings,clusterroles,clusterrolebindings <span class="se">\</span>
-        --all-namespaces -o json <span class="p">|</span> <span class="se">\</span>
-        rback <span class="p">|</span> <span class="se">\</span>
-        dot -Tpng &gt; /tmp/rback.png <span class="o">&amp;&amp;</span> <span class="se">\</span>
-        open /tmp/rback.png
-</pre></div>
-</td></tr></table>
-
-<p>Resulting in something like the following (note that only a small part of the overall graph is shown):</p>
-<p><img alt="rback example graph" src="img/rback-example-graph.png" /></p>
                 
                   
                 
@@ -617,6 +610,27 @@
       
         
 <footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+        
+          <a href="vis/" title="Visualizations" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Visualizations
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
