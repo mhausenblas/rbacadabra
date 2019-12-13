@@ -113,3 +113,19 @@ $ kubectl auth can-i \
           --as=system:serviceaccount:danger:dummy \
           --namespace=danger
 ```
+
+### Visualize permissions
+
+If you have [rback](https://github.com/team-soteria/rback) installed:
+
+```sh
+kubectl get sa,roles,rolebindings,clusterroles,clusterrolebindings \
+        --all-namespaces -o json | \
+        rback | \
+        dot -Tpng > /tmp/rback.png && \
+        open /tmp/rback.png
+```
+
+Resulting in something like the following (note that only a small part of the overall graph is shown):
+
+![rback example graph](img/rback-example-graph.png)
