@@ -153,7 +153,7 @@ PolicyRule:
 
 ```
 
-Below cluster role has label which matches the label of namespace-admin rules
+Let us create another cluster role with the same label
 
 ```yaml
 
