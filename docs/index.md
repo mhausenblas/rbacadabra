@@ -44,7 +44,7 @@ subjects:
 !!! tip
     To validate if the permissions have been granted, have a look at [checking for permissions](#checking-for-permissions).
 
-### Aggregated ClusterRoles
+### Aggregate roles
 
 Cluster roles can be created by combining other cluster roles using `aggregationRule`. The Kubernetes controller manager will take care of filling the rules based on the labels defined in the template.
 
