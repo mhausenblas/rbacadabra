@@ -264,6 +264,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#aggregate-roles" title="Aggregate roles" class="md-nav__link">
+    Aggregate roles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#give-namespace-admin" title="Give namespace admin" class="md-nav__link">
     Give namespace admin
   </a>
@@ -351,6 +358,18 @@
   </li>
 
     
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="contribs/" title="Contributors" class="md-nav__link">
+      Contributors
+    </a>
+  </li>
+
+    
   </ul>
 </nav>
                   </div>
@@ -380,6 +399,13 @@
           <li class="md-nav__item">
   <a href="#reuse-roles" title="Reuse roles" class="md-nav__link">
     Reuse roles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aggregate-roles" title="Aggregate roles" class="md-nav__link">
+    Aggregate roles
   </a>
   
 </li>
@@ -522,6 +548,122 @@
 <p class="admonition-title">Tip</p>
 <p>To validate if the permissions have been granted, have a look at <a href="#checking-for-permissions">checking for permissions</a>.</p>
 </div>
+<h3 id="aggregate-roles">Aggregate roles<a class="headerlink" href="#aggregate-roles" title="Permanent link">&para;</a></h3>
+<p>Cluster roles can be created by combining other cluster roles using <code>aggregationRule</code>. The Kubernetes controller manager will take care of filling the rules based on the labels defined in the template.</p>
+<p>To test it out, create the below rule in a file called <code>namespace-admin.yaml</code>:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ClusterRole</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">namespace-admin</span>
+<span class="nt">aggregationRule</span><span class="p">:</span>
+  <span class="nt">clusterRoleSelectors</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">matchLabels</span><span class="p">:</span>
+      <span class="nt">rbac.example.com/aggregate-to-namespace-admin</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
+<span class="nt">rules</span><span class="p">:</span> <span class="p p-Indicator">[]</span> <span class="c1"># rules are automatically filled in by controller manager</span>
+</pre></div>
+</td></tr></table>
+
+<p>And create the cluster role:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>kubectl apply -f namespace-admin.yaml
+
+clusterrole.rbac.authorization.k8s.io/namespace-admin created
+</pre></div>
+</td></tr></table>
+
+<p>If you look at the rules section in the below output, you can see that it has no rules:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ kubectl describe clusterrole namespace-admin
+Name:         namespace-admin
+Labels:       &lt;none&gt;
+Annotations:  &lt;none&gt;
+PolicyRule:
+  Resources  Non-Resource URLs  Resource Names  Verbs
+  ---------  -----------------  --------------  -----
+</pre></div>
+</td></tr></table>
+
+<p>Let us create another cluster role with the label <code>rbac.example.com/aggregate-to-namespace-admin</code>:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ClusterRole</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">annotations</span><span class="p">:</span>
+    <span class="nt">rbac.authorization.kubernetes.io/autoupdate</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
+  <span class="nt">labels</span><span class="p">:</span>
+    <span class="nt">rbac.example.com/aggregate-to-namespace-admin</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">aggregate-to-namespace-admin</span>
+<span class="nt">rules</span><span class="p">:</span>
+<span class="p p-Indicator">-</span> <span class="nt">apiGroups</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">apps</span>
+  <span class="nt">resources</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">deployments</span> 
+  <span class="nt">verbs</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">create</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">delete</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">patch</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">update</span>
+</pre></div>
+</td></tr></table>
+
+<p>And create it:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>kubectl apply -f aggregate-to-namespace-admin.yaml
+
+clusterrole.rbac.authorization.k8s.io/aggregate-to-namespace-admin created
+</pre></div>
+</td></tr></table>
+
+<p>Now check the permissions for the <code>namespace-admin</code> role. You can see that the controller manager aggregated all the rules based on the labels.</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>kubectl describe clusterrole namespace-admin
+Name:         namespace-admin
+Labels:       &lt;none&gt;
+Annotations:  &lt;none&gt;
+PolicyRule:
+  Resources         Non-Resource URLs  Resource Names  Verbs
+  ---------         -----------------  --------------  -----
+  deployments.apps  <span class="o">[]</span>                 <span class="o">[]</span>              <span class="o">[</span>create delete patch update<span class="o">]</span>
+</pre></div>
+</td></tr></table>
+
 <h3 id="give-namespace-admin">Give namespace admin<a class="headerlink" href="#give-namespace-admin" title="Permanent link">&para;</a></h3>
 <h3 id="allow-developer-to-deploy">Allow developer to deploy<a class="headerlink" href="#allow-developer-to-deploy" title="Permanent link">&para;</a></h3>
 <h2 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h2>

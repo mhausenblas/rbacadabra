@@ -40,7 +40,7 @@
     
     
       
-        <title>Visualizations - RBAC recipes</title>
+        <title>Contributors - RBAC recipes</title>
       
     
     
@@ -89,10 +89,6 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#graph" tabindex="1" class="md-skip">
-        Skip to content
-      </a>
-    
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
@@ -115,7 +111,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Visualizations
+                Contributors
               
             </span>
           
@@ -236,52 +232,11 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Visualizations
-      </label>
-    
-    <a href="./" title="Visualizations" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../vis/" title="Visualizations" class="md-nav__link">
       Visualizations
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#graph" title="Graph" class="md-nav__link">
-    Graph
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#matrix" title="Matrix" class="md-nav__link">
-    Matrix
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
     
@@ -301,11 +256,18 @@
       
       
 
+  
 
-  <li class="md-nav__item">
-    <a href="../contribs/" title="Contributors" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+    <a href="./" title="Contributors" class="md-nav__link md-nav__link--active">
       Contributors
     </a>
+    
   </li>
 
     
@@ -316,82 +278,21 @@
               </div>
             
             
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-<nav class="md-nav md-nav--secondary">
-  
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#graph" title="Graph" class="md-nav__link">
-    Graph
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#matrix" title="Matrix" class="md-nav__link">
-    Matrix
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/mhausenblas/rbacadabra/edit/master/docs/vis.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/mhausenblas/rbacadabra/edit/master/docs/contribs.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                  <h1>Visualizations</h1>
+                  <h1>Contributors</h1>
                 
-                <p>The RBAC permissions form a graph: users and service accounts as the entities (or: actors) who want to carry out certain tasks, (cluster) roles stating the allowed actions (think: policies), and (cluster) role bindings that assign (cluster) roles to entities, effectively permitting them to do certain things to certain resources. Since there are many moving parts and connections between them, visualizing them is a good way to get an overview what is going on in the cluster from a permissions point-of-view and also to understand who's allowed to do what.</p>
-<h2 id="graph">Graph<a class="headerlink" href="#graph" title="Permanent link">&para;</a></h2>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>The following example assumes you're using macOS.</p>
-</div>
-<p>If you have <a href="https://github.com/team-soteria/rback">rback</a> and <a href="https://www.graphviz.org/">Graphviz</a> installed, you can generate a permissions graph like so:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>kubectl get sa,roles,rolebindings,clusterroles,clusterrolebindings <span class="se">\</span>
-        --all-namespaces -o json <span class="p">|</span> <span class="se">\</span>
-        rback <span class="p">|</span> <span class="se">\</span>
-        dot -Tpng &gt; /tmp/rback.png <span class="o">&amp;&amp;</span> <span class="se">\</span>
-        open /tmp/rback.png
-</pre></div>
-</td></tr></table>
-
-<p>Resulting in something like the following permissions graph (and note that only a small part is shown here):</p>
-<p><img alt="rback example graph" src="../img/rback-example-graph.png" /></p>
-<h2 id="matrix">Matrix<a class="headerlink" href="#matrix" title="Permanent link">&para;</a></h2>
-<p>Available as <code>krew</code> <a href="https://github.com/kubernetes-sigs/krew-index/blob/master/plugins.md">plugins</a>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>kubectl access-matrix --as greta -n somens
-
-kubectl rbac-view
-</pre></div>
-</td></tr></table>
+                <p>This site was initiated by <a href="https://github.com/mhausenblas/">Michael Hausenblas</a> and received contributions from:</p>
+<ul>
+<li><a href="https://github.com/sathish-thangaraj">Sathish</a></li>
+</ul>
+<p>If you have an RBAC recipe you'd like to share, please PR <a href="https://github.com/mhausenblas/rbacadabra/">mhausenblas/rbacadabra</a>. Also, if you have a suggestion for a recipe, something that is missing, please create an issue, there.</p>
                 
                   
                 
@@ -412,7 +313,7 @@ kubectl rbac-view
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href=".." title="Base" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../apps/" title="Applications" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -421,25 +322,11 @@ kubectl rbac-view
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Base
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../apps/" title="Applications" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
                 Applications
               </span>
             </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
           </a>
+        
         
       </nav>
     </div>
