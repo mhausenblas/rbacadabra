@@ -44,6 +44,90 @@ subjects:
 !!! tip
     To validate if the permissions have been granted, have a look at [checking for permissions](#checking-for-permissions).
 
+### Aggregated ClusterRoles
+
+Cluster roles can be created by combining other cluster roles using `aggregationRule`. The Kubernetes controller manager will take care of filling the rules based on the labels defined in the template.
+
+To test it out, create the below rule in a file called `namespace-admin.yaml`:
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: namespace-admin
+aggregationRule:
+  clusterRoleSelectors:
+  - matchLabels:
+      rbac.example.com/aggregate-to-namespace-admin: "true"
+rules: [] # rules are automatically filled in by controller manager
+```
+
+And create the cluster role:
+
+``` sh
+kubectl apply -f namespace-admin.yaml
+
+clusterrole.rbac.authorization.k8s.io/namespace-admin created
+
+```
+
+If you look at the rules section in the below output, you can see that it has no rules:
+
+```sh
+$ kubectl describe clusterrole namespace-admin
+Name:         namespace-admin
+Labels:       <none>
+Annotations:  <none>
+PolicyRule:
+  Resources  Non-Resource URLs  Resource Names  Verbs
+  ---------  -----------------  --------------  -----
+
+```
+
+Let us create another cluster role with the label `rbac.example.com/aggregate-to-namespace-admin`:
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+  labels:
+    rbac.example.com/aggregate-to-namespace-admin: "true"
+  name: aggregate-to-namespace-admin
+rules:
+- apiGroups:
+  - apps
+  resources:
+  - deployments 
+  verbs:
+  - create
+  - delete
+  - patch
+  - update
+```
+
+And create it:
+
+```sh
+kubectl apply -f aggregate-to-namespace-admin.yaml
+
+clusterrole.rbac.authorization.k8s.io/aggregate-to-namespace-admin created
+```
+Now check the permissions for the `namespace-admin` role. You can see that the controller manager aggregated all the rules based on the labels.
+
+```sh
+
+kubectl describe clusterrole namespace-admin
+Name:         namespace-admin
+Labels:       <none>
+Annotations:  <none>
+PolicyRule:
+  Resources         Non-Resource URLs  Resource Names  Verbs
+  ---------         -----------------  --------------  -----
+  deployments.apps  []                 []              [create delete patch update]
+```
+
 ### Give namespace admin
 
 ### Allow developer to deploy
@@ -114,86 +198,4 @@ $ kubectl auth can-i \
           --namespace=danger
 ```
 
-### Aggregated ClusterRoles
-
-ClusterRoles can be created by combining other clusterroles using aggregationRule. Kubernetes controller manager will take care of filling the rules based on the labels.
-
-To test it out , you can create the below rule in your cluster.
-
-```yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: namespace-admin
-aggregationRule:
-  clusterRoleSelectors:
-  - matchLabels:
-      rbac.example.com/aggregate-to-namespace-admin: "true"
-rules: [] # Rules are automatically filled in by the controller manager.
-```
-
-``` sh
-kubectl create -f ~/namespace-admin.yaml
-
-clusterrole.rbac.authorization.k8s.io/namespace-admin created
-
-```
-
-If you look at the rules section in the below output, you can see that it has no rules.
-
-```sh
-
- kubectl describe clusterrole namespace-admin
-Name:         namespace-admin
-Labels:       <none>
-Annotations:  <none>
-PolicyRule:
-  Resources  Non-Resource URLs  Resource Names  Verbs
-  ---------  -----------------  --------------  -----
-
-```
-
-Let us create another cluster role with the same label
-
-```yaml
-
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  annotations:
-    rbac.authorization.kubernetes.io/autoupdate: "true"
-  labels:
-    rbac.example.com/aggregate-to-namespace-admin: "true"
-  name: aggregate-to-namespace-admin
-rules:
-- apiGroups:
-  - apps
-  resources:
-  - deployments 
-  verbs:
-  - create
-  - delete
-  - patch
-  - update
-
-```
-
-```sh
-kubectl create -f ~/aggregate-to-namespace-admin.yaml
-
-clusterrole.rbac.authorization.k8s.io/aggregate-to-namespace-admin created
-```
-Now check the permissions for namespace-admin role. You can see that controller manager aggregated all the rules based on the labels.
-
-```sh
-
-kubectl describe clusterrole namespace-admin
-Name:         namespace-admin
-Labels:       <none>
-Annotations:  <none>
-PolicyRule:
-  Resources         Non-Resource URLs  Resource Names  Verbs
-  ---------         -----------------  --------------  -----
-  deployments.apps  []                 []              [create delete patch update]
-```
  
