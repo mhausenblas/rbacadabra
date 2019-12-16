@@ -8,6 +8,7 @@ nav:
     - Base: index.md
     - Visualizations: vis.md
     - Applications: apps.md
+    - Contributors: contribs.md
 theme:
     name: 'material'
     # custom_dir: 'theme'
